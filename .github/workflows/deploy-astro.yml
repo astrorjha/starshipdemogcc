@@ -20,7 +20,7 @@ jobs:
       - name: Authenticate Astro
         env:
           ASTRO_API_TOKEN: ${{ secrets.ASTRO_API_TOKEN }} # your API token secret  [oai_citation:4‡Astronomer](https://www.astronomer.io/docs/astro/ci-cd-templates/github-actions-private-network/?utm_source=chatgpt.com)
-        run: astro auth login --token $ASTRO_API_TOKEN
+        run: astro auth --token-login $ASTRO_API_TOKEN
 
       - name: Deploy to Astro
         run: astro deploy ${{ secrets.ASTRO_DEPLOYMENT_ID }} # single deployment ID  [oai_citation:5‡Astronomer](https://www.astronomer.io/docs/astro/cli/astro-deploy/?utm_source=chatgpt.com)
