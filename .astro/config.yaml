@@ -1,0 +1,26 @@
+name: Astronomer CI - Deploy code
+
+on:
+  push:
+    branches:
+      - main # You can also add other branches if needed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # ensure full history checkout  [oai_citation:2‡GitHub Docs](https://docs.github.com/actions/writing-workflows/choosing-what-your-workflow-does/using-pre-written-building-blocks-in-your-workflow?utm_source=chatgpt.com)
+
+      - name: Install Astro CLI
+        run: curl -sSL install.astronomer.io | sudo bash -s # official CLI install  [oai_citation:3‡Astronomer](https://www.astronomer.io/docs/astro/automation-authentication/?utm_source=chatgpt.com)
+
+      - name: Authenticate Astro
+        env:
+          ASTRO_API_TOKEN: ${{ secrets.ASTRO_API_TOKEN }} # your API token secret  [oai_citation:4‡Astronomer](https://www.astronomer.io/docs/astro/ci-cd-templates/github-actions-private-network/?utm_source=chatgpt.com)
+        run: astro auth login --token $ASTRO_API_TOKEN
+
+      - name: Deploy to Astro
+        run: astro deploy ${{ secrets.ASTRO_DEPLOYMENT_ID }} # single deployment ID  [oai_citation:5‡Astronomer](https://www.astronomer.io/docs/astro/cli/astro-deploy/?utm_source=chatgpt.com)
